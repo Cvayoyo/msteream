@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 // Kita tidak lagi butuh ikon pencarian
 
 // Komponen Card (Tidak Berubah)
@@ -40,20 +41,51 @@ function Loader() {
 function LetterFilter({ selectedLetter, onLetterChange }) {
     // Buat array dari 'A' sampai 'Z'
     const letters = [...Array(26)].map((_, i) => String.fromCharCode(65 + i));
+    const router = useRouter();
+
+    const handleSpecialClick = (value) => {
+        // Redirect ke search page dengan value yang dipilih
+        router.push(`/search/${encodeURIComponent(value)}`);
+    };
 
     return (
-        <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-2xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-4xl mx-auto">
+            {/* All Button */}
+            <button
+                onClick={() => handleSpecialClick('all')}
+                className="px-4 py-2 bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white rounded-md transition-all text-sm font-semibold"
+            >
+                All
+            </button>
+            
+            {/* # Button */}
+            <button
+                onClick={() => handleSpecialClick('#')}
+                className="px-4 py-2 bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white rounded-md transition-all text-sm font-semibold"
+            >
+                #
+            </button>
+            
+            {/* 0-9 Button */}
+            <button
+                onClick={() => handleSpecialClick('0-9')}
+                className="px-4 py-2 bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white rounded-md transition-all text-sm font-semibold"
+            >
+                0-9
+            </button>
+            
+            {/* A-Z Letters */}
             {letters.map((letter) => (
                 <button
                     key={letter}
                     onClick={() => onLetterChange(letter)}
                     className={`
-            w-10 h-10 flex items-center justify-center font-bold text-sm rounded-md transition-all
-            ${selectedLetter === letter
+                        w-10 h-10 flex items-center justify-center font-bold text-sm rounded-md transition-all
+                        ${selectedLetter === letter
                             ? 'bg-pink-600 text-white shadow-lg'
                             : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white'
                         }
-          `}
+                    `}
                 >
                     {letter}
                 </button>

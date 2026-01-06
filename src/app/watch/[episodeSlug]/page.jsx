@@ -299,14 +299,14 @@ function WatchPageContent({ params, episodeSlug }) {
                 Server error? Coba beralih ke server lain di bawah ini.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 p-2 border-t border-neutral-700 pt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 p-2 border-t border-neutral-700 pt-4">
               {servers.map((server) => (
                 <button
                   key={server.url}
                   type="button"
                   onClick={() => handleServerClick(server)}
                   disabled={isSwitchingServer}
-                  className={`px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ease-in-out flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed ${activeIdentifier === server.url
+                  className={`px-4 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 ease-in-out flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] ${activeIdentifier === server.url
                       ? 'bg-pink-600 text-white shadow-lg shadow-pink-600/30 ring-2 ring-pink-400'
                       : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600 hover:text-white'
                     }`}
@@ -321,7 +321,7 @@ function WatchPageContent({ params, episodeSlug }) {
         <div className="bg-neutral-900 p-4 rounded-lg mb-8">
           <h1 className="text-2xl md:text-3xl font-bold mb-2 truncate">{episodeTitle || 'Memuat judul...'}</h1>
           <div className="flex justify-between items-center">
-            <span className="text-sm text-pink-400">Animasu API</span>
+            <span className="text-sm text-pink-400">StudentArt-Anime API</span>
             <div className="flex space-x-2">
               
               {isValidPrev && (

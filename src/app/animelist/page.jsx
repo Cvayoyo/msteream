@@ -37,11 +37,19 @@ const Page = async () => {
     const initialAnimeData = await getInitialAnime(initialLetter, 1); 
     
     return (
-        <div className="min-h-screen text-white p-4 md:p-8">
+        <div className="min-h-screen bg-[#1A1A29] text-white p-4 md:p-8">
             <Navigation />
-            <h1 className="text-3xl font-bold mb-8 text-center text-pink-500">
-                Daftar Semua Anime A - Z
-            </h1>
+            
+            {/* A-Z LIST Header */}
+            <div className="mb-6">
+                <div className="flex items-center gap-4 mb-2">
+                    <h1 className="text-3xl font-bold text-white">A-Z LIST</h1>
+                    <div className="h-6 w-px bg-white"></div>
+                    <p className="text-neutral-300 text-sm md:text-base">
+                        Searching anime order by alphabet name A to Z
+                    </p>
+                </div>
+            </div>
             
             {/* Kita teruskan data awal (initialData) ke komponen klien.
               Komponen klien akan menangani sisanya (termasuk fetch halaman 2, 3, ...)

@@ -3,17 +3,21 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-const Navbar = ({ user }) => { 
+const Navbar = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
   const useDatabase = process.env.NEXT_PUBLIC_USE_DATABASE === 'true';
 
   const navLinks = [
+    { href: "/", name: "Home" },
     { href: "/populer", name: "Populer" },
     { href: "/movie", name: "Movie" },
-    { href: "/genre", name: "Genre" },
+    { href: "/genre", name: "Genre List" },
     { href: "/schedule", name: "Schedule" },
-    { href: "https://link.sankanime.com", name: "Web Sankanime" },
-    { href: "https://www.whatsapp.com/channel/0029VbBv5edGk1Fo8WbsAK1V", name: "Join Komunitas" },
+    { href: "/drakor/series", name: "Drakor Series" },
+    { href: "/drakor/movie", name: "Drakor Movie" },
+    { href: "/drakor/complete", name: "Drakor Complete" },
+    // { href: "https://link.sankanime.com", name: "Web Sankanime" },
+    // { href: "https://www.whatsapp.com/channel/0029VbBv5edGk1Fo8WbsAK1V", name: "Join Komunitas" },
   ];
 
   if (useDatabase) {
@@ -38,8 +42,8 @@ const Navbar = ({ user }) => {
         <ul className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link 
-                href={link.href} 
+              <Link
+                href={link.href}
                 className="text-neutral-300 hover:text-pink-500 transition-colors duration-200 font-medium text-md"
               >
                 {link.name}
@@ -49,22 +53,22 @@ const Navbar = ({ user }) => {
         </ul>
 
         <div className="md:hidden w-full">
-          <button 
-            onClick={() => setIsOpen(!isOpen)} 
+          <button
+            onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
             className="text-white focus:outline-none"
           >
-            <svg 
-              className="w-10 h-10" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="w-10 h-10"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
               >
               </path>
@@ -81,8 +85,8 @@ const Navbar = ({ user }) => {
         <ul className="flex flex-col p-4">
           {navLinks.map((link) => (
             <li key={link.href} className="w-full">
-              <Link 
-                href={link.href} 
+              <Link
+                href={link.href}
                 className="block py-3 px-2 text-neutral-200 hover:bg-pink-700 rounded-md transition-colors"
                 onClick={() => setIsOpen(false)}
               >

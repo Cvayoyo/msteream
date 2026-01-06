@@ -18,10 +18,10 @@ const HeroSection = () => {
       order-2 lg:order-1">
 
           <h1 className="text-2xl lg:text-4xl font-bold text-white mb-3 lg:mb-4 relative z-20">
-            JujuOtaku
+            StudentArt-Anime
           </h1>
           <p className="text-neutral-400 mb-4 lg:mb-6 text-sm lg:text-base relative z-20">
-            JujuOtaku adalah situs anime gratis tanpa iklan untuk menonton anime gratis
+            StudentArt-Anime adalah situs anime gratis tanpa iklan untuk menonton anime gratis
           </p>
           <SearchInput />
           <div className="text-xs text-neutral-400 mb-4 lg:mb-6 relative z-20 line-clamp-2 lg:line-clamp-none">
@@ -38,8 +38,8 @@ const HeroSection = () => {
               Database Anime A - Z
             </Link>
 
-            <Link href={'https://sociabuzz.com/sankanime/tribe'} target='_blank' className="bg-blue-500 text-center text-white px-6 py-2 lg:py-3 rounded-full">
-              Donate JujuOtaku
+            <Link href={'http://localhost:3000/donate'} target='_blank' className="bg-blue-500 text-center text-white px-6 py-2 lg:py-3 rounded-full">
+              Donate StudentArt-Anime
             </Link>
           </div>
         </div>

@@ -1,11 +1,13 @@
 // app/page.js
 
+export const dynamic = 'force-dynamic'
+
 import AnimeCompleted from "@/app/components/AnimeCompleted";
 import AnimeOngoing from "@/app/components/AnimeOngoing";
 import Header from "@/app/components/Header";
 import HeroSection from "@/app/components/HeroSection";
 import React from 'react';
-import Navbar from "./components/Navbar"; // <-- 1. IMPORT NAVBAR
+
 import { AuthUserSession } from "./libs/auth-libs"; // <-- 2. IMPORT AUTH
 
 // ... (Komponen ApiWarningMessage dan AnimeListSkeleton Anda tidak berubah) ...
@@ -16,7 +18,7 @@ function ApiWarningMessage({ sectionTitle }) {
         Gagal Memuat Data {sectionTitle}
       </p>
       <p className="text-sm text-neutral-400">
-        API mungkin kena limit atau *offline*. Silakan coba muat ulang nanti.(makanya donate admin🗿)
+        API Sedang OFFLINE. Silakan coba muat ulang nanti.
       </p>
     </div>
   );
@@ -35,8 +37,13 @@ function AnimeListSkeleton() {
 
 
 // Komponen Home Anda (ini SUDAH 'async')
-const Home = async () => {
+const Home = async ({ searchParams: searchParamsPromise }) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const searchParams = await searchParamsPromise;
+
+  // Ambil page dari searchParams, default ke 1
+  const ongoingPage = parseInt(searchParams?.ongoingPage) || 1;
+  const completedPage = parseInt(searchParams?.completedPage) || 1;
 
   // 3. AMBIL DATA USER DI SINI (DI DALAM 'Home')
   const user = await AuthUserSession();
@@ -44,18 +51,21 @@ const Home = async () => {
   // Set nilai default jika fetch gagal
   let animeOngoing = [];
   let animeComplete = [];
+  let ongoingPagination = { hasNext: false, hasPrev: false, currentPage: 1 };
+  let completedPagination = { hasNext: false, hasPrev: false, currentPage: 1 };
 
   // ... (Logika fetch Promise.allSettled Anda tidak berubah) ...
   let ongoingFetchFailed = false;
   let completedFetchFailed = false;
   try {
     const [ongoingResponse, completedResponse] = await Promise.allSettled([
-      fetch(`${apiUrl}/ongoing`),
-      fetch(`${apiUrl}/completed`)
+      fetch(`${apiUrl}/ongoing?page=${ongoingPage}`, { cache: 'no-store' }),
+      fetch(`${apiUrl}/completed?page=${completedPage}`, { cache: 'no-store' })
     ]);
     if (ongoingResponse.status === 'fulfilled' && ongoingResponse.value.ok) {
       const resultOnGoing = await ongoingResponse.value.json();
       animeOngoing = resultOnGoing.animes || [];
+      ongoingPagination = resultOnGoing.pagination || { hasNext: false, hasPrev: false, currentPage: ongoingPage };
     } else {
       console.error("Gagal mengambil data OnGoing:",
         ongoingResponse.reason || `Status: ${ongoingResponse.value?.status}`
@@ -65,6 +75,7 @@ const Home = async () => {
     if (completedResponse.status === 'fulfilled' && completedResponse.value.ok) {
       const resultCompleted = await completedResponse.value.json();
       animeComplete = resultCompleted.animes || [];
+      completedPagination = resultCompleted.pagination || { hasNext: false, hasPrev: false, currentPage: completedPage };
     } else {
       console.error("Gagal mengambil data Completed:",
         completedResponse.reason || `Status: ${completedResponse.value?.status}`
@@ -83,14 +94,14 @@ const Home = async () => {
   return (
     <>
       {/* 4. TAMPILKAN NAVBAR DI SINI, OPER 'user' SEBAGAI PROP */}
-      <Navbar user={user} />
+
       <HeroSection />
 
       <Header title="Anime OnGoing" />
       {ongoingFetchFailed ? (
         <ApiWarningMessage sectionTitle="OnGoing" />
       ) : (
-        <AnimeOngoing api={animeOngoing} />
+        <AnimeOngoing api={animeOngoing} pagination={ongoingPagination} />
       )}
 
       {/* ... (Bagian Suspense Anda tidak berubah) ... */}
@@ -99,7 +110,7 @@ const Home = async () => {
         {completedFetchFailed ? (
           <ApiWarningMessage sectionTitle="Completed" />
         ) : (
-          <AnimeCompleted api={animeComplete} />
+          <AnimeCompleted api={animeComplete} pagination={completedPagination} />
         )}
       </React.Suspense>
     </>

@@ -54,6 +54,15 @@ const nextConfig = {
             },
             {
                 hostname: "encrypted-tbn0.gstatic.com"
+            },
+            {
+                hostname: "image.tmdb.org"
+            },
+            {
+                hostname: "cdn.mywap.in"
+            },
+            {
+                hostname: "xdrakor28.nicewap.sbs"
             }
         ]
     }
