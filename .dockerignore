@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.local
+.env.production
+.env.staging
+.DS_Store
+README.md
+DEPLOYMENT.md
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache

@@ -110,47 +110,7 @@ const NavigationDrawer = ({ user }) => {
     setIsExpanded(!isExpanded);
   };
 
-  // Auto expand/collapse setelah 5 detik tidak ada aktivitas
-  useEffect(() => {
-    let inactivityTimer;
 
-    const resetTimer = () => {
-      // Clear existing timer
-      if (inactivityTimer) {
-        clearTimeout(inactivityTimer);
-      }
-
-      // Set new timer untuk auto toggle setelah 5 detik
-      inactivityTimer = setTimeout(() => {
-        setIsExpanded((prev) => !prev);
-      }, 5000); // 5 detik = 5000ms
-    };
-
-    // Event listeners untuk track user activity
-    const handleActivity = () => {
-      resetTimer();
-    };
-
-    // Track berbagai jenis aktivitas user
-    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
-
-    events.forEach((event) => {
-      window.addEventListener(event, handleActivity, { passive: true });
-    });
-
-    // Start timer saat component mount
-    resetTimer();
-
-    // Cleanup
-    return () => {
-      if (inactivityTimer) {
-        clearTimeout(inactivityTimer);
-      }
-      events.forEach((event) => {
-        window.removeEventListener(event, handleActivity);
-      });
-    };
-  }, [setIsExpanded]);
 
   return (
     <>
