@@ -6,8 +6,8 @@ services:
     restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:password@db:5432/anime_db?schema=public
-      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL
+      - NEXTAUTH_SECRET
     ports:
       - "3006:3000"
     depends_on:
